@@ -14,7 +14,7 @@ const Autocomplete = ({ data, autoComplete, placeholder, isLoading }: AutoComple
     const [value, setValue] = React.useState('');
     const [suggestions, setSuggestions] = React.useState<string[]>([]);
     const [activeSuggestion, setActiveSuggestion] = React.useState<number>(-1);
-    const { setCurrentSearch } = useSearch()
+    const { currentSearch, setCurrentSearch } = useSearch()
 
     const onClick = (selectedSuggestion: string, suggestionIndex: number) => {
         setValue(selectedSuggestion);
@@ -44,11 +44,11 @@ const Autocomplete = ({ data, autoComplete, placeholder, isLoading }: AutoComple
                 value={value}
                 placeholder={placeholder}
             />
-            {isLoading && value.length > 0 && <h1>loading data</h1>}
+            {!hasSuggestions && isLoading && currentSearch.length > 0 && <h2>loading data</h2>}
             {
                 !isLoading && value.length > 0
-                && autoComplete && suggestions.length === 0
-                && <h1>No Results</h1>
+                && autoComplete && !hasSuggestions
+                && currentSearch.length > 0 && <h2>No Results</h2>
             }
             {
                 hasSuggestions && autoComplete && !isLoading &&

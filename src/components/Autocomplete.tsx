@@ -6,15 +6,17 @@ import SuggestionsList from './SuggestionsList';
 interface AutoCompleteInterface {
     data: Exhibitions[];
     placeholder: string;
-    autoComplete: boolean;
+    useAutoComplete: boolean;
     isLoading: boolean;
 }
 
-const Autocomplete = ({ data, autoComplete, placeholder, isLoading }: AutoCompleteInterface) => {
+const Autocomplete = ({ data, useAutoComplete, placeholder, isLoading }: AutoCompleteInterface) => {
     const [value, setValue] = React.useState('');
     const [suggestions, setSuggestions] = React.useState<string[]>([]);
     const [activeSuggestion, setActiveSuggestion] = React.useState<number>(-1);
     const { currentSearch, setCurrentSearch } = useSearch()
+
+    const existSuggestions = suggestions.length > 0;
 
     const onClick = (selectedSuggestion: string, suggestionIndex: number) => {
         setValue(selectedSuggestion);
@@ -35,7 +37,6 @@ const Autocomplete = ({ data, autoComplete, placeholder, isLoading }: AutoComple
         setValue(e.target.value);
     };
 
-    const hasSuggestions = suggestions.length > 0;
 
     return (
         <div style={{ width: '400px' }}>
@@ -44,14 +45,14 @@ const Autocomplete = ({ data, autoComplete, placeholder, isLoading }: AutoComple
                 value={value}
                 placeholder={placeholder}
             />
-            {!hasSuggestions && isLoading && currentSearch.length > 0 && <h2>loading data</h2>}
+            {!existSuggestions && isLoading && currentSearch.length > 0 && <h2>loading data</h2>}
             {
                 !isLoading && value.length > 0
-                && autoComplete && !hasSuggestions
+                && useAutoComplete && !existSuggestions
                 && currentSearch.length > 0 && <h2>No Results</h2>
             }
             {
-                hasSuggestions && autoComplete && !isLoading &&
+                existSuggestions && useAutoComplete && !isLoading &&
                 <SuggestionsList
                     suggestions={suggestions}
                     activeSuggestion={activeSuggestion}

@@ -1,14 +1,15 @@
 
+import '../Autocomple.css';
 interface SuggestionListInterface {
-    suggestions:any;
-    onClick:any;
-    activeSuggestion:any;
+    suggestions: string[];
+    onClick: (selectedSuggestion: string, suggestionIndex: number) => void;
+    activeSuggestion: number;
 }
 
-const SuggestionsList = ({suggestions, onClick, activeSuggestion}: SuggestionListInterface) => {
+const SuggestionsList = ({ suggestions, onClick, activeSuggestion }: SuggestionListInterface) => {
     return (
         <ul className="suggestions">
-            {suggestions.map((suggestion: any, index: number) => {
+            {suggestions.map((suggestion: string, index: number) => {
                 let className;
 
                 // Flag the active suggestion with a class
@@ -16,7 +17,7 @@ const SuggestionsList = ({suggestions, onClick, activeSuggestion}: SuggestionLis
                     className = "suggestion-active";
                 }
                 return (
-                    <li className={className} key={suggestion} onClick={onClick}>
+                    <li className={className} key={suggestion} onClick={() => onClick(suggestion, index)}>
                         {suggestion}
                     </li>
                 );

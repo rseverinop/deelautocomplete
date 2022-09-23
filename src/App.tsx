@@ -5,16 +5,15 @@ import { useSearch } from './Hooks/useSearch';
 import { getAPIData } from './Services/Exhibitions';
 
 function App() {
-  const [exhibitions, setExhibitions] = useState<string[]>([])
   const [isLoading, setIsloading] = useState<boolean>(false)
-  const { currentSearch } = useSearch()
+  const { currentSearch, setData } = useSearch()
 
   useEffect(() => {
     setIsloading(true)
     const getExhibition = async () => {
       if (currentSearch) {
-        const exhibitions = await getAPIData(currentSearch)
-        setExhibitions(exhibitions)
+        const fetchedExhibitions = await getAPIData(currentSearch)
+        setData(fetchedExhibitions)
         setIsloading(false)
       }
     }
@@ -22,17 +21,16 @@ function App() {
     const delayDebounceFn = setTimeout(() => {
       getExhibition()
     }, 3000)
-    
+
     return () => clearTimeout(delayDebounceFn)
-    
-  }, [currentSearch])
+
+  }, [currentSearch, setData])
 
   return (
     <div className="App">
       <Autocomplete
-        data={exhibitions}
         useAutoComplete
-        placeholder='Deel Tester, Search here...'
+        placeholder='Deel Engineer, Search here...'
         isLoading={isLoading}
       />
     </div>

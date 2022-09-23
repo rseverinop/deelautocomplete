@@ -1,13 +1,11 @@
 import * as React from 'react';
+import { getAPIData } from '../Services/service';
 import SuggestionsList from './SuggestionsList';
 
  const Autocomplete: React.FunctionComponent = () => {
   const [value, setValue] = React.useState('');
   const [suggestions, setSuggestions] = React.useState([]);
   const [activeSuggestion, setactiveSuggestion] = React.useState([]);
-
-  React.useEffect(() => {
-  }, []);
 
   const onClick = (e:any) => {
 
@@ -27,7 +25,13 @@ import SuggestionsList from './SuggestionsList';
         value={value}
         placeholder="start typing"
       />
-      {hasSuggestions && <SuggestionsList suggestions={suggestions} activeSuggestion={activeSuggestion} onClick={onClick}/>}
+      {
+      hasSuggestions && 
+        <SuggestionsList 
+        suggestions={suggestions} 
+        activeSuggestion={activeSuggestion} 
+        onClick={onClick}/>
+        }
     </div>
   );
 };

@@ -18,7 +18,6 @@ function App() {
         setIsloading(false)
       }
     }
-
     // this timeout going to call de api when the user ends to type...
     const delayDebounceFn = setTimeout(() => {
       getExhibition()
@@ -33,7 +32,7 @@ function App() {
       <Autocomplete
         data={exhibitions}
         autoComplete
-        placeholder='Search here...'
+        placeholder='Deel Tester, Search here...'
         isLoading={isLoading}
       />
     </div>

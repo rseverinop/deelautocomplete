@@ -31,7 +31,7 @@ function App() {
     <div className="App">
       <Autocomplete
         data={exhibitions}
-        autoComplete
+        useAutoComplete
         placeholder='Deel Tester, Search here...'
         isLoading={isLoading}
       />

@@ -1,20 +1,18 @@
 import * as React from 'react';
 import { useSearch } from '../Hooks/useSearch';
-import { Exhibitions } from '../Model/Exhibitions';
 import SuggestionsList from './SuggestionsList';
 
 interface AutoCompleteInterface {
-    data: Exhibitions[];
     placeholder: string;
     useAutoComplete: boolean;
     isLoading: boolean;
 }
 
-const Autocomplete = ({ data, useAutoComplete, placeholder, isLoading }: AutoCompleteInterface) => {
+const Autocomplete = ({ useAutoComplete, placeholder, isLoading }: AutoCompleteInterface) => {
     const [value, setValue] = React.useState('');
     const [suggestions, setSuggestions] = React.useState<string[]>([]);
     const [activeSuggestion, setActiveSuggestion] = React.useState<number>(-1);
-    const { currentSearch, setCurrentSearch } = useSearch()
+    const { currentSearch, setCurrentSearch, data } = useSearch()
 
     const existSuggestions = suggestions.length > 0;
 
@@ -24,6 +22,11 @@ const Autocomplete = ({ data, useAutoComplete, placeholder, isLoading }: AutoCom
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setCurrentSearch(e.target.value);
+        setValue(e.target.value);
+    };
+
+    React.useEffect(() => {
         setSuggestions([]);
         let matches: string[] = []
         if (value.length > 0) {
@@ -33,9 +36,7 @@ const Autocomplete = ({ data, useAutoComplete, placeholder, isLoading }: AutoCom
             })
         }
         setSuggestions(matches)
-        setCurrentSearch(e.target.value)
-        setValue(e.target.value);
-    };
+    }, [data])
 
 
     return (
@@ -45,7 +46,7 @@ const Autocomplete = ({ data, useAutoComplete, placeholder, isLoading }: AutoCom
                 value={value}
                 placeholder={placeholder}
             />
-            {!existSuggestions && isLoading && currentSearch.length > 0 && <h2>loading data</h2>}
+            { isLoading && currentSearch.length > 0 && <h2>loading data</h2>}
             {
                 !isLoading && value.length > 0
                 && useAutoComplete && !existSuggestions

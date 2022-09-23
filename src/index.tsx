@@ -11,7 +11,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <SearchProvider search={''}>
-      <App />
+    <App />
     </SearchProvider>
   </React.StrictMode>
 );
